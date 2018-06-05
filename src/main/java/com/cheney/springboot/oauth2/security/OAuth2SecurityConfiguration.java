@@ -8,11 +8,19 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
@@ -21,7 +29,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()
-				.withUser("demoUser1").password("123456").authorities("USER")
+				.withUser("demoUser1").password("123456").authorities("ADMIN")
 				.and()
 				.withUser("demoUser2").password("123456").authorities("USER");
 	}
@@ -41,13 +49,16 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http
-				.requestMatchers().antMatchers("/oauth/**","/login/**","/logout/**")
+		http.requestMatchers()
+				.antMatchers("/oauth/**","/login/**","/logout/**")
 				.and()
 				.authorizeRequests()
+//				.antMatchers("/oauth/login").permitAll()
 				.antMatchers("/oauth/**").authenticated()
 				.and()
-				.formLogin().permitAll();
+				.formLogin()
+				.loginPage("/login")//跳转登录页面的控制器，该地址要保证和表单提交的地址一致！
+				.permitAll();
 	}
 
 

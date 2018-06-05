@@ -11,9 +11,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
+import org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 认证服务器配置
@@ -26,6 +29,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
 	private static final String DEMO_RESOURCE_ID = "user";
+
 
 
 	@Autowired
@@ -63,5 +67,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 				.checkTokenAccess("isAuthenticated()") //url:/oauth/check_token allow check token
 				.allowFormAuthenticationForClients();
 	}
+
+//	@Autowired
+//	private AuthorizationEndpoint authorizationEndpoint;
+//
+//	@PostConstruct
+//	public void init() {
+//		authorizationEndpoint.setUserApprovalPage("forward:/oauth/my_approval_page");
+//		authorizationEndpoint.setErrorPage("forward:/oauth/my_error_page");
+//	}
+
 
 }
