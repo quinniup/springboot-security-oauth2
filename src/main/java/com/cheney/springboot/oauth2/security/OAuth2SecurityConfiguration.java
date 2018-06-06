@@ -57,8 +57,16 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/oauth/**").authenticated()
 				.and()
 				.formLogin()
-				.loginPage("/login")//跳转登录页面的控制器，该地址要保证和表单提交的地址一致！
-				.permitAll();
+				.loginPage("/login")
+				.defaultSuccessUrl("/oauth/my_approval_page")
+				.failureUrl("/oauth/my_error_page")
+				.permitAll()
+				.and()
+				.logout()
+				.permitAll()
+				.and()
+				.rememberMe()
+				.and().exceptionHandling().accessDeniedPage("/oauth/my_error_page");
 	}
 
 

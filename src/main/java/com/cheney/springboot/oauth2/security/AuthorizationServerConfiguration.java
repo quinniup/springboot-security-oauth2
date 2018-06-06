@@ -68,14 +68,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 				.allowFormAuthenticationForClients();
 	}
 
-//	@Autowired
-//	private AuthorizationEndpoint authorizationEndpoint;
-//
-//	@PostConstruct
-//	public void init() {
-//		authorizationEndpoint.setUserApprovalPage("forward:/oauth/my_approval_page");
-//		authorizationEndpoint.setErrorPage("forward:/oauth/my_error_page");
-//	}
+	@Autowired
+	private AuthorizationEndpoint authorizationEndpoint;
+
+	@PostConstruct
+	public void init() {
+		authorizationEndpoint.setUserApprovalPage("forward:/oauth/my_approval_page");
+		authorizationEndpoint.setErrorPage("forward:/oauth/my_error_page");
+	}
 
 
 }
