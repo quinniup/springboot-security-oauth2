@@ -15,19 +15,19 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
-//	private static final String RESOURCE_ID = "user";
-//
-//	@Override
-//	public void configure(ResourceServerSecurityConfigurer resources) {
-//		resources.resourceId(RESOURCE_ID).stateless(true);
-//	}
+	private static final String RESOURCE_ID = "user";
+
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) {
+		resources.resourceId(RESOURCE_ID).stateless(true);
+	}
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.requestMatchers().antMatchers("/api/**")
+		http.requestMatchers().antMatchers("/voice/**")
 				.and()
 				.authorizeRequests()
-				.antMatchers("/api/**").authenticated();
+				.antMatchers("/voice/**").authenticated();
 	}
 
 }
