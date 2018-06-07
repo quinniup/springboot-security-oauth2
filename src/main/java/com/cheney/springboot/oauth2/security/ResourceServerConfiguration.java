@@ -24,10 +24,10 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.requestMatchers().antMatchers("/voice/**")
+		http.requestMatchers().antMatchers("/voices/**")
 				.and()
 				.authorizeRequests()
-				.antMatchers("/voice/**").authenticated();
+				.antMatchers("/voices/**").authenticated();
 	}
 
 }
