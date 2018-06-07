@@ -38,7 +38,7 @@ import java.util.UUID;
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-	private static final String DEMO_RESOURCE_ID = "user";
+	private static final String DEMO_RESOURCE_ID = "voice";
 
 
 	@Bean

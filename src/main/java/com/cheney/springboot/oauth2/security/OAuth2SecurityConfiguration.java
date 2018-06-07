@@ -50,7 +50,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.requestMatchers()
-				.antMatchers("/oauth/**","/login/**","/logout/**")
+				.antMatchers("/oauth/**","/login/**","/logout/**","/voice/AliGenie")
 				.and()
 				.authorizeRequests()
 //				.antMatchers("/oauth/login").permitAll()
