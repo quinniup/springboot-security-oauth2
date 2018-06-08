@@ -7,7 +7,7 @@ public interface UserService {
 
     User selectByPrimaryKey(Integer id);
 
-    User findByUsername(String name);
+    User selectByUserName(String name);
 
     User findAll();
 

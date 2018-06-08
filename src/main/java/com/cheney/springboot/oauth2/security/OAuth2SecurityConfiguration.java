@@ -1,8 +1,11 @@
 package com.cheney.springboot.oauth2.security;
 
+import com.cheney.springboot.oauth2.config.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,15 +27,25 @@ import java.io.IOException;
 public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
-
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-				.withUser("demoUser1").password("123456").authorities("ADMIN")
-				.and()
-				.withUser("demoUser2").password("123456").authorities("USER");
+	@Bean
+	public MyUserDetailsService myUserDetailsService(){
+		return new MyUserDetailsService();
 	}
+
+	@Autowired
+	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+		auth
+				.userDetailsService(myUserDetailsService())
+				.passwordEncoder(new Md5PasswordEncoder());
+	}
+
+//	@Override
+//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//		auth.inMemoryAuthentication()
+//				.withUser("demoUser1").password("123456").authorities("ADMIN")
+//				.and()
+//				.withUser("demoUser2").password("123456").authorities("USER");
+//	}
 
 	@Bean
 	@Override
@@ -50,7 +63,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.requestMatchers()
-				.antMatchers("/oauth/**","/login/**","/logout/**","/voice/AliGenie")
+				.antMatchers("/oauth/**","/login/**","/logout/**")
 				.and()
 				.authorizeRequests()
 //				.antMatchers("/oauth/login").permitAll()

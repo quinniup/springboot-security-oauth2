@@ -7,6 +7,8 @@ public class User {
 
     private String username;
 
+    private String oauthrole;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
+    }
+
+    public String getOauthrole() {
+        return oauthrole;
+    }
+
+    public void setOauthrole(String oauthrole) {
+        this.oauthrole = oauthrole;
     }
 }

@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User findByUsername(String name) {
+    public User selectByUserName(String name) {
         return userMapper.selectByUserName(name);
     }
 
@@ -24,20 +24,6 @@ public class UserServiceImpl implements UserService {
     public User findAll() {
         return userMapper.selectAll();
     }
-
-//    @Override
-//    public  boolean isUserExist(User user){
-//        if (userMapper.selectByUserName(user.getUsername())!=null){
-//        return  true;
-//        }else {
-//            return false;
-//        }
-//    }
-//
-//    @Override
-//    public int saveUser(User user){
-//        return userMapper.insert(user);
-//    }
 
     @Override
     public User selectByPrimaryKey(Integer id){
