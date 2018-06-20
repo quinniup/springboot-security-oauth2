@@ -2,6 +2,8 @@ package com.cheney.springboot.oauth2.config;
 
 import com.cheney.springboot.oauth2.entity.User;
 import com.cheney.springboot.oauth2.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +22,10 @@ import java.util.HashSet;
  **
  ****/
 public class MyUserDetailsService implements UserDetailsService {
+
+
+    private final Logger Logger=LoggerFactory.getLogger(MyUserDetailsService.class);
+
     @Autowired
     private UserService userService;
 
@@ -34,8 +40,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
         //创建一个HashSet存放用户权限
         Collection<SimpleGrantedAuthority> collection = new HashSet<SimpleGrantedAuthority>();
-        collection.add(new SimpleGrantedAuthority(user.getOauthrole()));
+        collection.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         //如果这个用户在数据库就返回给SpringSecurity框架
+        Logger.info("UserName:"+userName+";Password:"+user.getPassword()+";Role:"+collection);
         return new org.springframework.security.core.userdetails.User(userName,user.getPassword(),collection);
 
     }

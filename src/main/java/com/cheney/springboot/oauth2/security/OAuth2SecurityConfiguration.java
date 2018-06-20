@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -36,16 +37,20 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 				.userDetailsService(myUserDetailsService())
-				.passwordEncoder(new Md5PasswordEncoder());
+				.passwordEncoder(passwordEncoder());
 	}
 
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication()
-//				.withUser("demoUser1").password("123456").authorities("ADMIN")
-//				.and()
-//				.withUser("demoUser2").password("123456").authorities("USER");
-//	}
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder(){
+		return new BCryptPasswordEncoder();
+	}
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication()
+				.withUser("demoUser1").password("123456").authorities("ADMIN")
+				.and()
+				.withUser("demoUser2").password("123456").authorities("USER");
+	}
 
 	@Bean
 	@Override
@@ -78,8 +83,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.logout()
 				.permitAll()
 				.and()
-				.rememberMe()
-				.and().exceptionHandling().accessDeniedPage("/oauth/my_error_page");
+				.rememberMe();
 	}
 
 

@@ -58,7 +58,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
 		clients.inMemory()
 				.withClient("AliGenieDevlopment")
-				.resourceIds("oauth2-resource")
+				.resourceIds(DEMO_RESOURCE_ID)
 				.authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password", "implicit")
 				.redirectUris("https://open.bot.tmall.com/oauth/callback")
 				.scopes("all")

@@ -26,7 +26,9 @@ import java.util.Map;
 @SessionAttributes({"authorizationRequest"})
 public class OAuthController {
     @RequestMapping("/login")
-    public String login(Model model, @RequestParam(value = "error", required = false) String error) {
+    public String login(Model model, @RequestParam(value = "error", required = false) String error,HttpServletRequest request) {
+
+
         if (error != null) {
             model.addAttribute("error", "用户名或密码错误");
         }
