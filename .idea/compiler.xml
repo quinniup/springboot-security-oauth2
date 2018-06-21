@@ -9,8 +9,5 @@
         <module name="springboot-security-oauth2" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="springboot-security-oauth2" target="1.7" />
-    </bytecodeTargetLevel>
   </component>
 </project>

@@ -30,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String userName)throws UsernameNotFoundException{
+    public UserDetails loadUserByUsername(String userName){
 
         User user = userService.selectByUserName(userName);
 

@@ -7,13 +7,12 @@ public interface UserService {
 
     User selectByPrimaryKey(Integer id);
 
-    User selectByUserName(String name);
+    User selectByUserName(String nameName);
 
     User findAll();
 
-//    int saveUser(User user);
-//
-//    boolean isUserExist(User user);
+
+    boolean isUserExist(String userName);
 
 
 }

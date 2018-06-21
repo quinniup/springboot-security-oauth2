@@ -1,8 +1,12 @@
 package com.cheney.springboot.oauth2.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -25,16 +29,24 @@ import java.util.Map;
 @Controller
 @SessionAttributes({"authorizationRequest"})
 public class OAuthController {
-    @RequestMapping("/login")
-    public String login(Model model, @RequestParam(value = "error", required = false) String error,HttpServletRequest request) {
 
+    private static final Logger logger=LoggerFactory.getLogger(OAuthController.class);
 
-        if (error != null) {
-            model.addAttribute("error", "用户名或密码错误");
+        @RequestMapping("/login")
+        public String login(Model model, HttpServletRequest request,@RequestParam(value = "error", required = false)String error) {
+
+            logger.info("Request:"+request);
+            logger.info("Username:"+request.getParameter("username"));
+            logger.info("Password:"+request.getParameter("password"));
+            logger.info(error);
+            Md5PasswordEncoder md5PasswordEncoder;
+//            logger.info();
+            if (error != null) {
+                model.addAttribute("error", "用户名或密码错误");
+            }
+
+            return "static/login_page";
         }
-        return "static/login_page";
-    }
-
 
         @RequestMapping({ "/oauth/my_approval_page" })
         public String getAccessConfirmation(Map<String, Object> model, HttpServletRequest request) throws Exception {
@@ -50,6 +62,7 @@ public class OAuthController {
 
         @RequestMapping({ "/oauth/my_error_page" })
         public String handleError(Map<String, Object> model, HttpServletRequest request) {
+
             Object error = request.getAttribute("error");
             String errorSummary;
             if (error instanceof OAuth2Exception) {

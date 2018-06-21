@@ -38,6 +38,9 @@ import java.util.UUID;
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
+	/**
+	 * 资源ID；一定要与资源服务器的ID保证一致；
+	 */
 	private static final String DEMO_RESOURCE_ID = "voice";
 
 
@@ -50,6 +53,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	RedisConnectionFactory redisConnectionFactory;
 
 	@Autowired
+	private AuthorizationEndpoint authorizationEndpoint;
+
+	@Autowired
 	@Qualifier("authenticationManagerBean")
 	private AuthenticationManager authenticationManager;
 
@@ -57,15 +63,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
 		clients.inMemory()
-				.withClient("AliGenieDevlopment")
-				.resourceIds(DEMO_RESOURCE_ID)
-				.authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password", "implicit")
-				.redirectUris("https://open.bot.tmall.com/oauth/callback")
+				.withClient("AliGenieDevlopment")//clientID
+				.secret("XMKDOIGN8274HDN")//ClientSecret
+				.resourceIds(DEMO_RESOURCE_ID)//资源ID
+				.authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password", "implicit")//授权方式
+				.redirectUris("https://open.bot.tmall.com/oauth/callback")//回调地址
 				.scopes("all")
 				.authorities("client")
-				.secret("XMKDOIGN8274HDN")//密码
-				.accessTokenValiditySeconds(120).//token有效期为120秒
-				refreshTokenValiditySeconds(600);//刷新token有效期为600秒
+				.accessTokenValiditySeconds(120)//token有效期为120秒
+				.refreshTokenValiditySeconds(600);//刷新token有效期为600秒
 	}
 
 	@Override
@@ -77,13 +83,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
 		oauthServer.realm("oauth2-resources")
-				.tokenKeyAccess("permitAll()") //url:/oauth/token_key,exposes public key for token verification if using JWT tokens
-				.checkTokenAccess("isAuthenticated()") //url:/oauth/check_token allow check token
+				.tokenKeyAccess("permitAll()")
+				.checkTokenAccess("isAuthenticated()")
 				.allowFormAuthenticationForClients();
 	}
 
-	@Autowired
-	private AuthorizationEndpoint authorizationEndpoint;
+
 
 	@PostConstruct
 	public void init() {

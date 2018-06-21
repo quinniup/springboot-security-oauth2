@@ -1,26 +1,15 @@
 package com.cheney.springboot.oauth2.security;
 
 import com.cheney.springboot.oauth2.config.MyUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 
 @Configuration
@@ -33,24 +22,40 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new MyUserDetailsService();
 	}
 
-	@Autowired
-	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-				.userDetailsService(myUserDetailsService())
-				.passwordEncoder(passwordEncoder());
+	@Override
+	protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder)throws Exception{
+		authenticationManagerBuilder.authenticationProvider(authenticationProvider());
+	}
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider(){
+		DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
+		daoAuthenticationProvider.setUserDetailsService(myUserDetailsService());
+		daoAuthenticationProvider.setPasswordEncoder(new Md5PasswordEncoder());
+		return daoAuthenticationProvider;
 	}
 
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-				.withUser("demoUser1").password("123456").authorities("ADMIN")
-				.and()
-				.withUser("demoUser2").password("123456").authorities("USER");
-	}
+
+//	@Autowired
+//	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+//		auth
+//				.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
+//	}
+//
+//	@Bean
+//	public BCryptPasswordEncoder passwordEncoder(){
+//
+//
+//		return new BCryptPasswordEncoder(11);
+//	}
+
+
+//	@Override
+//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//		auth.inMemoryAuthentication()
+//				.withUser("demoUser1").password("123456").authorities("ADMIN")
+//				.and()
+//				.withUser("demoUser2").password("123456").authorities("USER");
+//	}
 
 	@Bean
 	@Override
@@ -71,7 +76,6 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/oauth/**","/login/**","/logout/**")
 				.and()
 				.authorizeRequests()
-//				.antMatchers("/oauth/login").permitAll()
 				.antMatchers("/oauth/**").authenticated()
 				.and()
 				.formLogin()
