@@ -76,7 +76,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/oauth/**","/login/**","/logout/**")
 				.and()
 				.authorizeRequests()
-				.antMatchers("/oauth/**").authenticated()
+				.antMatchers("/oauth/**","/voice/**").authenticated()
 				.and()
 				.formLogin()
 				.loginPage("/login")

@@ -1,6 +1,6 @@
 package com.cheney.springboot.oauth2.service.impl;
 
-import com.cheney.springboot.oauth2.service.AliGenieService;
+import com.cheney.springboot.oauth2.utils.ResultData;
 
 /***
  **
@@ -10,5 +10,12 @@ import com.cheney.springboot.oauth2.service.AliGenieService;
  ** @Modified By:
  **
  ****/
-public class AliGenieServiceImpl implements AliGenieService {
+public class AliGenieServiceImpl {
+
+    public ResultData discoveryDeviceList(){
+
+        ResultData resultData=null;
+
+        return resultData;
+    }
 }

@@ -19,15 +19,18 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) {
-		resources.resourceId(RESOURCE_ID).stateless(true);
+		resources.resourceId(RESOURCE_ID).stateless(false);
 	}
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.requestMatchers().antMatchers("/voice/**")
+		http.
+				anonymous().disable()
+				.requestMatchers().antMatchers("/voices/**")
 				.and()
 				.authorizeRequests()
-				.antMatchers("/voice/**").authenticated();
+				.antMatchers("/voices/**").permitAll()
+				.and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 	}
 
 }
