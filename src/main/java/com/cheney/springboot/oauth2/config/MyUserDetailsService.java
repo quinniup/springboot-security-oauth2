@@ -40,7 +40,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
         //创建一个HashSet存放用户权限
         Collection<SimpleGrantedAuthority> collection = new HashSet<SimpleGrantedAuthority>();
-        collection.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        collection.add(new SimpleGrantedAuthority("ADMIN"));
         //如果这个用户在数据库就返回给SpringSecurity框架
         Logger.info("UserName:"+userName+";Password:"+user.getPassword()+";Role:"+collection);
         return new org.springframework.security.core.userdetails.User(userName,user.getPassword(),collection);

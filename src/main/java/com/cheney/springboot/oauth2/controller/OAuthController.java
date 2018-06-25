@@ -30,17 +30,10 @@ import java.util.Map;
 @SessionAttributes({"authorizationRequest"})
 public class OAuthController {
 
-    private static final Logger logger=LoggerFactory.getLogger(OAuthController.class);
 
         @RequestMapping("/login")
-        public String login(Model model, HttpServletRequest request,@RequestParam(value = "error", required = false)String error) {
+        public String login(Model model,@RequestParam(value = "error", required = false)String error) {
 
-            logger.info("Request:"+request);
-            logger.info("Username:"+request.getParameter("username"));
-            logger.info("Password:"+request.getParameter("password"));
-            logger.info(error);
-            Md5PasswordEncoder md5PasswordEncoder;
-//            logger.info();
             if (error != null) {
                 model.addAttribute("error", "用户名或密码错误");
             }

@@ -12,10 +12,10 @@ import com.cheney.springboot.oauth2.utils.ResultData;
  ****/
 public class AliGenieServiceImpl {
 
-    public ResultData discoveryDeviceList(){
+    public String  discoveryDeviceList(String messageID){
 
-        ResultData resultData=null;
 
-        return resultData;
+
+        return null;
     }
 }
