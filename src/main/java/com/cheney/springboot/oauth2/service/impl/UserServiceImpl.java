@@ -20,23 +20,5 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectByUserName(name);
     }
 
-    @Override
-    public User findAll() {
-        return userMapper.selectAll();
-    }
-
-    @Override
-    public User selectByPrimaryKey(Integer id){
-        return userMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public boolean isUserExist(String userName){
-
-        if (userMapper.selectByUserName(userName)==null){
-            return false;
-        }
-        return true;
-    }
 
 }

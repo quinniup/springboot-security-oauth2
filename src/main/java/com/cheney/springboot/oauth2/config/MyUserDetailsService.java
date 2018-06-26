@@ -29,6 +29,9 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
+    /*
+        重写loadUserByUsername()将自定义用户登录放入oauth2
+     */
     @Override
     public UserDetails loadUserByUsername(String userName){
 

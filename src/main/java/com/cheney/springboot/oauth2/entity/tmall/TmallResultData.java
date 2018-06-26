@@ -37,7 +37,7 @@ public class TmallResultData {
 
 
 
-    //返回discovery格式数据
+    //返回TmallAligenie格式数据
     public TmallResultData(TmallHeader header, TmallDevices devices){
         this.header=header;
         this.payload=devices;

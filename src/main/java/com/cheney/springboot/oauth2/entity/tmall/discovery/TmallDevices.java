@@ -46,11 +46,15 @@ public class TmallDevices {
 
     public TmallDevices(String deviceId){
         this.deviceId=deviceId;
+        this.setDevices(null);
+        this.setErrorCode(null);
+        this.setMessage(null);
     }
     public TmallDevices(String deviceId,String errorCode,String message){
         this.deviceId=deviceId;
         this.errorCode=errorCode;
         this.message=message;
+        this.setDevices(null);
     }
 
 
@@ -66,9 +70,14 @@ public class TmallDevices {
         List<TmallDevice> devices=new ArrayList<>();
         devices.add(device);
         this.devices=devices;
+        this.setDeviceId(null);
+        this.setErrorCode(null);
+        this.setMessage(null);
     }
     @Override
     public String toString(){
         return JSON.toJSONString(this);
     }
+
 }
+
