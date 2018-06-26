@@ -26,7 +26,7 @@ public class TmallDevice {
     private String icon;
     private List<JSONObject> properties;
     private List<String> actions;
-    private List<String> extensions;
+    private JSONObject extensions;
 
     public String getDeviceId() {
         return deviceId;
@@ -100,11 +100,11 @@ public class TmallDevice {
         this.actions = actions;
     }
 
-    public List<String> getExtensions() {
+    public JSONObject getExtensions() {
         return extensions;
     }
 
-    public void setExtensions(List<String> extensions) {
+    public void setExtensions(JSONObject extensions) {
         this.extensions = extensions;
     }
 

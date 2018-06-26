@@ -42,6 +42,8 @@ public class AliGenieController {
         //构造返回参数json
         TmallHeader tmallHeader=new TmallHeader(headerJson.getString("namespace"),headerJson.getString("name"),headerJson.getString("messageId"),headerJson.getString("payLoadVersion"));
 
+        String accessToken=payLoadJson.getString("accessToken");
+        logger.info("accessToken:======>   "+accessToken);
 
         //判断是什么类型的命令
         //查询设备列表

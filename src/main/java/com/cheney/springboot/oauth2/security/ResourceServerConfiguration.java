@@ -26,9 +26,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 	public void configure(HttpSecurity http) throws Exception {
 		http.
 
-				requestMatchers().antMatchers("/voice/**")
+				requestMatchers().antMatchers("/voices/**")
 				.and().authorizeRequests()
-				.antMatchers("/voice/**").authenticated()
+				.antMatchers("/voices/**").authenticated()
 				.and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 	}
 

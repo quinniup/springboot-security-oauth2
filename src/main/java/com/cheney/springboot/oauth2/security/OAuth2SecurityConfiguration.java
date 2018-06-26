@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
@@ -34,29 +32,6 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		daoAuthenticationProvider.setPasswordEncoder(new Md5PasswordEncoder());
 		return daoAuthenticationProvider;
 	}
-
-
-//	@Autowired
-//	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-//		auth
-//				.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
-//	}
-//
-//	@Bean
-//	public BCryptPasswordEncoder passwordEncoder(){
-//
-//
-//		return new BCryptPasswordEncoder(11);
-//	}
-
-
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication()
-//				.withUser("demoUser1").password("123456").authorities("ADMIN")
-//				.and()
-//				.withUser("demoUser2").password("123456").authorities("USER");
-//	}
 
 	@Bean
 	@Override
@@ -77,7 +52,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/oauth/**","/login/**","/logout/**")
 				.and()
 				.authorizeRequests()
-				.antMatchers("/oauth/**","/voice/**").authenticated()
+				.antMatchers("/oauth/**").authenticated()
 				.and()
 				.formLogin()
 				.loginPage("/login")
@@ -89,6 +64,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.and()
 				.rememberMe();
+//		super.configure(http);
 	}
 
 	
