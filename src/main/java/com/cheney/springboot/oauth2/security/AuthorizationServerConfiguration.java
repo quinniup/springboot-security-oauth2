@@ -48,10 +48,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	private DataSource dataSource;
 
 
-
-
-
-
 	@Autowired
 	private AuthenticationProvider authenticationProvider;
 

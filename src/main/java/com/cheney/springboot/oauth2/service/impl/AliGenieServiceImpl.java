@@ -66,26 +66,27 @@ public class AliGenieServiceImpl {
         extensions.put("extension2","");
         tmallDevice.setExtensions(extensions);
 
-        TmallDevice tmallDevice2 =new TmallDevice();
-        tmallDevice2.setDeviceId("34ea34cf2e64");
-        tmallDevice2.setDeviceName("灯");
-        tmallDevice2.setDeviceType("light");
-        tmallDevice2.setZone("客厅");
-        tmallDevice2.setBrand("GPIO 艾欧特智能");
-        tmallDevice2.setModel("GPIO86L");
-        tmallDevice2.setIcon("http://iot.domybox.com/boss/userfiles/e4e1ec8ab50a498b884f8e0a032f767f/images/devicelogo/2017/11/smoke%403x.png");
-        tmallDevice2.setActions(actions);
-        tmallDevice2.setProperties(properties);
+//        TmallDevice tmallDevice2 =new TmallDevice();
+//        tmallDevice2.setDeviceId("34ea34cf2e64");
+//        tmallDevice2.setDeviceName("灯");
+//        tmallDevice2.setDeviceType("light");
+//        tmallDevice2.setZone("客厅");
+//        tmallDevice2.setBrand("GPIO 艾欧特智能");
+//        tmallDevice2.setModel("GPIO86L");
+//        tmallDevice2.setIcon("http://iot.domybox.com/boss/userfiles/e4e1ec8ab50a498b884f8e0a032f767f/images/devicelogo/2017/11/smoke%403x.png");
+//        tmallDevice2.setActions(actions);
+//        tmallDevice2.setProperties(properties);
+//
+//        JSONObject extensions2=new JSONObject();
+//        extensions.put("extension1","");
+//        extensions.put("extension2","");
+//        tmallDevice.setExtensions(extensions2);
+//
+//        List<TmallDevice> tmallDeviceList=new ArrayList<>();
+//        tmallDeviceList.add(tmallDevice);
+//        tmallDeviceList.add(tmallDevice2);
 
-        JSONObject extensions2=new JSONObject();
-        extensions.put("extension1","");
-        extensions.put("extension2","");
-
-        List<TmallDevice> tmallDeviceList=new ArrayList<>();
-        tmallDeviceList.add(tmallDevice);
-        tmallDeviceList.add(tmallDevice2);
-
-        tmallDevices.setDevices(tmallDeviceList);
+//        tmallDevices.setDevices(tmallDeviceList);
         TmallResultData tmallResultData =new TmallResultData(tmallHeader,tmallDevices);
         logger.info(tmallResultData.toString());
         return tmallResultData.toString();

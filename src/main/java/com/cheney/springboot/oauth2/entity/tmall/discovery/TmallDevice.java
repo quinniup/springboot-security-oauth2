@@ -17,15 +17,25 @@ import java.util.List;
  ***/
 public class TmallDevice {
 
+    //设备ID
     private String deviceId;
+
     private String deviceName;
+    //设备的具体类型，需对应阿里品类列表
     private String deviceType;
+    //位置
     private String zone;
+    //品牌
     private String brand;
+    //型号
     private String model;
+    //图标
     private String icon;
+    //返回当前设备支持的属性状态列表，产品支持的属性列表参考 设备控制与设备状态查询页 的 第二部分 设备状态查询 2.2 章节
     private List<JSONObject> properties;
+    //产品支持的操作(注：包括支持的查询操作) ,详情参照 协议简介 中 1.3.2和1.3.3章节
     private List<String> actions;
+    //产品扩展属性,为空返回null或者不返回该字段
     private JSONObject extensions;
 
     public String getDeviceId() {

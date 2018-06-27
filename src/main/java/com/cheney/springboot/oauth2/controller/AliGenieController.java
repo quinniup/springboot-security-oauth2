@@ -4,6 +4,7 @@ package com.cheney.springboot.oauth2.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.cheney.springboot.oauth2.entity.tmall.TmallHeader;
 import com.cheney.springboot.oauth2.service.impl.AliGenieServiceImpl;
+import com.cheney.springboot.oauth2.service.impl.VerifyAccessTokenServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -26,13 +28,15 @@ public class AliGenieController {
     //查询设备状态类命令
     private static String Query="AliGenie.Iot.Device.Query";
 
+    @Autowired
+    private VerifyAccessTokenServiceImpl verifyAccessTokenService;
 
     @Autowired
     private AliGenieServiceImpl aliGenieService;
 
     @RequestMapping(value = "/aligenie",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String aliGenie(HttpServletRequest request,@RequestBody String  body) {
+    public String aliGenie(HttpServletRequest request, @RequestBody String  body, HttpServletResponse response) {
 
         //获取请求参数json中的header字段对象；
         JSONObject headerJson=JSONObject.parseObject(JSONObject.parseObject(body).getString("header"));
@@ -44,6 +48,10 @@ public class AliGenieController {
 
         String accessToken=payLoadJson.getString("accessToken");
         logger.info("accessToken:======>   "+accessToken);
+        if (!verifyAccessTokenService.verifyAccessToken(accessToken)){
+            response.setStatus(200);
+            return null;
+        }
 
         //判断是什么类型的命令
         //查询设备列表

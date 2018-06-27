@@ -35,6 +35,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName){
 
+        //替换DaMai用户表
         User user = userService.selectByUserName(userName);
 
         if (user==null) {
