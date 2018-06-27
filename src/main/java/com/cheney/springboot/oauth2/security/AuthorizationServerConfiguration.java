@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -24,6 +22,7 @@ import org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoi
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
@@ -44,41 +43,47 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
 	private static String REALM="MY_OAUTH_REALM";
 
-	@Autowired
-	private DataSource dataSource;
+//	@Autowired
+//	private DataSource dataSource;
 
 
 	@Autowired
 	private AuthenticationProvider authenticationProvider;
 
+	@Autowired
+	private RedisConnectionFactory redisConnectionFactory;
+
+//	@Bean
+//	public ApprovalStore approvalStore() {
+//
+//		return new JdbcApprovalStore(dataSource);
+//	}
+//	@Bean
+//	protected AuthorizationCodeServices authorizationCodeServices() {
+//		return new JdbcAuthorizationCodeServices(dataSource);
+//	}
+//
+//
+//	@Bean
+//	public TokenStore jdbcTokenStore() {
+//		Assert.state(dataSource != null, "DataSource must be provided");
+//		return new JdbcTokenStore(dataSource);
+//	}
+//	@Autowired(required = false)
+//	private TokenStore jdbcTokenStore;
+
+
+
+//	@Bean
+//	public ClientDetailsService clientDetails() {
+//		return new JdbcClientDetailsService(dataSource);
+//	}
+//
 
 	@Bean
-	public ApprovalStore approvalStore() {
-
-		return new JdbcApprovalStore(dataSource);
+	public TokenStore redisTokenStore(){
+		return new RedisTokenStore(redisConnectionFactory);
 	}
-	@Bean
-	protected AuthorizationCodeServices authorizationCodeServices() {
-		return new JdbcAuthorizationCodeServices(dataSource);
-	}
-
-
-	@Bean
-	public TokenStore jdbcTokenStore() {
-		Assert.state(dataSource != null, "DataSource must be provided");
-		return new JdbcTokenStore(dataSource);
-	}
-	@Autowired(required = false)
-	private TokenStore jdbcTokenStore;
-
-
-
-	@Bean
-	public ClientDetailsService clientDetails() {
-		return new JdbcClientDetailsService(dataSource);
-	}
-
-
 
 	@Autowired
 	private AuthorizationEndpoint authorizationEndpoint;
@@ -105,23 +110,21 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.tokenStore(jdbcTokenStore)
-				.authorizationCodeServices(authorizationCodeServices())
-				.approvalStore(approvalStore())
+		endpoints.tokenStore(redisTokenStore())
 				.authenticationManager(authenticationManager);
 
-		//设置TokenService的参数
-		DefaultTokenServices tokenServices = new DefaultTokenServices();
-		tokenServices.setTokenStore(endpoints.getTokenStore());
-		//支持刷新accessToken；
-		tokenServices.setSupportRefreshToken(true);
-		tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
-		tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
-		tokenServices.setReuseRefreshToken(true);
-		tokenServices.setAccessTokenValiditySeconds( (int) TimeUnit.DAYS.toSeconds(3)); // 3天（天猫精灵开发平台推荐2-3天）
-		tokenServices.setRefreshTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(3));
-
-		endpoints.tokenServices(tokenServices);
+//		//设置TokenService的参数
+//		DefaultTokenServices tokenServices = new DefaultTokenServices();
+//		tokenServices.setTokenStore(endpoints.getTokenStore());
+//		//支持刷新accessToken；
+//		tokenServices.setSupportRefreshToken(true);
+//		tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
+//		tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
+//		tokenServices.setReuseRefreshToken(true);
+//		tokenServices.setAccessTokenValiditySeconds( (int) TimeUnit.DAYS.toSeconds(3)); // 3天（天猫精灵开发平台推荐2-3天）
+//		tokenServices.setRefreshTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(3));
+//
+//		endpoints.tokenServices(tokenServices);
 	}
 
 	@Override

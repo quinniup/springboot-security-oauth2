@@ -5,9 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -26,27 +29,18 @@ public class VerifyAccessTokenServiceImpl implements VerifyAccessTokenService {
 
     private static final Logger LOG=LoggerFactory.getLogger(VerifyAccessTokenServiceImpl.class);
 
-    @Autowired
-    private DataSource dataSource;
 
-    @Bean
-    public TokenStore jdbcTokenStore() {
-        Assert.state(dataSource != null, "DataSource must be provided");
-        return new JdbcTokenStore(dataSource);
-    }
-    @Autowired(required = false)
-    private TokenStore jdbcTokenStore;
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+
 
 
     @Override
     public boolean verifyAccessToken(String accessToken){
-
-        OAuth2AccessToken oAuth2AccessToken=jdbcTokenStore.readAccessToken(accessToken);
-
-        //校验accessToken是否存在，如果不存在则不允许访问；
-        if (oAuth2AccessToken==null){
-            return false;
-        }
+        RedisTokenStore redisTokenStore=new RedisTokenStore(redisConnectionFactory);
+        OAuth2Authentication oAuth2Authentication=redisTokenStore.readAuthentication(accessToken);
+        String userName=oAuth2Authentication.getUserAuthentication().getName();
+        LOG.info(userName);
         return true;
     }
 
