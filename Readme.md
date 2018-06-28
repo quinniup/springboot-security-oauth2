@@ -1,12 +1,13 @@
 #**springboot-security-oauth2** 
-### 此SpringBoot项目集成Spring Security、OAuth2实现资源访问授权认证。
-### 支持client credentials、password、authorization code认证模式。
-### 项目默认最为复杂的authorization code授权码认证模式，已经实现自定义登录页、授权页、错误页，以及第三方用户登录。
+*   此SpringBoot项目集成Spring Security、OAuth2实现资源访问授权认证。<br>
+*   支持client credentials、password、authorization code认证模式。<br>
+*   项目默认最为复杂的authorization code授权码认证模式，已经实现自定义登录页、授权页、错误页，以及第三方用户登录。
 ### 
 
-#### 1.支持/oauth/authorize,/oauth/token,/oauth/refresh_token,/oauth/error；
-#### 2.用户认证的accessToken使用RedisTokenStore保存在Redis中（但是代码也已经支持JDBC持久化存储Token，目前处于注释状态）。
-#### 注：如果需要使用JDBCTokenStore可以使用一下SQL语句创建响应的数据表：
+ 1.支持/oauth/authorize,/oauth/token,/oauth/refresh_token,/oauth/error；<br>
+ 2.用户认证的accessToken使用RedisTokenStore保存在Redis中（但是代码也已经支持JDBC持久化存储Token，目前处于注释状态）。<br>
+    注：如果需要使用JDBCTokenStore可以使用一下SQL语句创建响应的数据表：
+```
 USE `iot_boss` ;
 
 -- -----------------------------------------------------
@@ -78,3 +79,4 @@ CREATE TABLE IF NOT EXISTS `iot_boss`.`oauth_refresh_token` (
   `authentication` BLOB NULL DEFAULT NULL)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+```
