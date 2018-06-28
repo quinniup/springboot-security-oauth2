@@ -1,4 +1,4 @@
-#**springboot-security-oauth2** 
+# **springboot-security-oauth2** 
 *   此SpringBoot项目集成Spring Security、OAuth2实现资源访问授权认证。<br>
 *   支持client credentials、password、authorization code认证模式。<br>
 *   项目默认最为复杂的authorization code授权码认证模式，已经实现自定义登录页、授权页、错误页，以及第三方用户登录。
