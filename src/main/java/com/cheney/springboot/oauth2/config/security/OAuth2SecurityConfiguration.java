@@ -1,4 +1,4 @@
-package com.cheney.springboot.oauth2.security;
+package com.cheney.springboot.oauth2.config.security;
 
 import com.cheney.springboot.oauth2.config.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;

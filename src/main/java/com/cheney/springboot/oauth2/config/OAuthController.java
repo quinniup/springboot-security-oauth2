@@ -1,4 +1,4 @@
-package com.cheney.springboot.oauth2.controller;
+package com.cheney.springboot.oauth2.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
