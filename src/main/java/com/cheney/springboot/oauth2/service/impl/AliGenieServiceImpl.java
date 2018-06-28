@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cheney.springboot.oauth2.entity.tmall.TmallHeader;
 import com.cheney.springboot.oauth2.entity.tmall.TmallResultData;
 import com.cheney.springboot.oauth2.entity.tmall.discovery.TmallDevice;
+import com.cheney.springboot.oauth2.entity.tmall.discovery.TmallDeviceProperties;
 import com.cheney.springboot.oauth2.entity.tmall.discovery.TmallDevices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class AliGenieServiceImpl {
     private static final Logger logger=LoggerFactory.getLogger(AliGenieServiceImpl.class);
 
 
-     TmallDevices tmallDevices;
+
     /**
      * 查询用户设备列表
      * @param tmallHeader
@@ -44,8 +45,8 @@ public class AliGenieServiceImpl {
         actions.add("TurnOff");
 
         JSONObject property=new JSONObject();
-        property.put("name","color");
-        property.put("value","Red");
+        property.put("name","powerstate");
+        property.put("value","OFF");
 
         List<JSONObject> properties=new ArrayList<>();
         properties.add(property);
@@ -55,8 +56,8 @@ public class AliGenieServiceImpl {
         tmallDevice.setDeviceName("灯");
         tmallDevice.setDeviceType("light");
         tmallDevice.setZone("卧室");
-        tmallDevice.setBrand("GPIO 艾欧特智能");
-        tmallDevice.setModel("GPIO86L");
+        tmallDevice.setBrand("TuYa");
+        tmallDevice.setModel("PH269");
         tmallDevice.setIcon("http://iot.domybox.com/boss/userfiles/e4e1ec8ab50a498b884f8e0a032f767f/images/devicelogo/2017/11/smoke%403x.png");
         tmallDevice.setActions(actions);
         tmallDevice.setProperties(properties);
@@ -66,27 +67,10 @@ public class AliGenieServiceImpl {
         extensions.put("extension2","");
         tmallDevice.setExtensions(extensions);
 
-//        TmallDevice tmallDevice2 =new TmallDevice();
-//        tmallDevice2.setDeviceId("34ea34cf2e64");
-//        tmallDevice2.setDeviceName("灯");
-//        tmallDevice2.setDeviceType("light");
-//        tmallDevice2.setZone("客厅");
-//        tmallDevice2.setBrand("GPIO 艾欧特智能");
-//        tmallDevice2.setModel("GPIO86L");
-//        tmallDevice2.setIcon("http://iot.domybox.com/boss/userfiles/e4e1ec8ab50a498b884f8e0a032f767f/images/devicelogo/2017/11/smoke%403x.png");
-//        tmallDevice2.setActions(actions);
-//        tmallDevice2.setProperties(properties);
 //
-//        JSONObject extensions2=new JSONObject();
-//        extensions.put("extension1","");
-//        extensions.put("extension2","");
-//        tmallDevice.setExtensions(extensions2);
-//
-//        List<TmallDevice> tmallDeviceList=new ArrayList<>();
-//        tmallDeviceList.add(tmallDevice);
-//        tmallDeviceList.add(tmallDevice2);
 
-//        tmallDevices.setDevices(tmallDeviceList);
+        TmallDevices tmallDevices=new TmallDevices(tmallDevice);
+
         TmallResultData tmallResultData =new TmallResultData(tmallHeader,tmallDevices);
         logger.info(tmallResultData.toString());
         return tmallResultData.toString();
@@ -101,6 +85,7 @@ public class AliGenieServiceImpl {
     public String controlDevice(JSONObject payLoadJson, TmallHeader tmallHeader){
 
         TmallDevices tmallControl;
+        TmallDeviceProperties tmallDeviceProperties;
         TmallResultData tmallResultData;
         /*
                 请求设备的控制接口，如果执行成功直接deviceID；
@@ -120,9 +105,29 @@ public class AliGenieServiceImpl {
     }
 
 
-    public String queryDeviceProperties(){
+    public String queryDeviceProperties(JSONObject payLoadJson,TmallHeader tmallHeader){
+        TmallDeviceProperties tmallDeviceProperties=new TmallDeviceProperties();
+        TmallResultData tmallResultData;
+        TmallDevices tmallControl=new TmallDevices(payLoadJson.getString("deviceId"));
 
-        return null;
+        JSONObject property1=new JSONObject();
+        property1.put("name","powerstate");
+        property1.put("value","ON");
+
+        JSONObject property2=new JSONObject();
+        property2.put("name","color");
+        property2.put("value","Red");
+
+        List<JSONObject> propertity=new ArrayList<>();
+        propertity.add(property1);
+        propertity.add(property2);
+
+
+
+
+        tmallResultData=new TmallResultData(tmallHeader,tmallControl,propertity);
+        logger.info(tmallResultData.toString());
+        return tmallResultData.toString();
     }
 
 }

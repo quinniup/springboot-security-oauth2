@@ -66,7 +66,7 @@ public class AliGenieController {
 
         }else if (headerJson.getString("namespace").equals(Query)){
 
-            return null;
+            return aliGenieService.queryDeviceProperties(payLoadJson,tmallHeader);
         }else {
 
             return null;
