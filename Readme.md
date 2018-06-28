@@ -7,7 +7,7 @@
 #### 1.支持/oauth/authorize,/oauth/token,/oauth/refresh_token,/oauth/error；
 #### 2.用户认证的accessToken使用RedisTokenStore保存在Redis中（但是代码也已经支持JDBC持久化存储Token，目前处于注释状态）。
 #### 注：如果需要使用JDBCTokenStore可以使用一下SQL语句创建响应的数据表：
-``_****_USE `iot_boss` ;
+USE `iot_boss` ;
 
 -- -----------------------------------------------------
 -- Table `iot_boss`.`oauth_access_token`
@@ -77,4 +77,4 @@ CREATE TABLE IF NOT EXISTS `iot_boss`.`oauth_refresh_token` (
   `token` BLOB NULL DEFAULT NULL,
   `authentication` BLOB NULL DEFAULT NULL)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;_****_``
+DEFAULT CHARACTER SET = utf8;
